@@ -1,0 +1,14 @@
+{
+  "name": "js-concepts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {},
+  "license": "MIT",
+  "dependencies": {
+    "cleaver": "^0.8.7"
+  },
+  "scripts": {
+    "start": "cleaver slides.md",
+    "watch": "cleaver watch slides.md"
+  }
+}

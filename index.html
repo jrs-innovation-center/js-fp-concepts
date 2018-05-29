@@ -1,0 +1,1221 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>JS Concepts</title>
+  <style type="text/css">
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  font-size: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-color: #f7f7f7;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 30px solid #333;
+  float: left;
+  margin-right: 30px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 60%;
+  line-height: 1.3;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 1;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #008080;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #900;
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #009926;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #990073;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #0086b3;
+}
+
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+
+  </style>
+</head>
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="slide" id="slide-1">
+    <section class="slide-content"><h1 id="js-concepts">JS Concepts</h1>
+<h2 id="understanding-how-to-talk-javascript">Understanding how to talk JavaScript</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h3 id="disclaimer">Disclaimer</h3>
+<p>We are going to go deep into how the javascript runtime works, but we are only going to an abstracted level of detail that will help us build a mental model/map on how our programs execute. This is not a literal technical discussion about the js compiler.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-3">
+    <section class="slide-content"><h3 id="what-is-a-function-">What is a function?</h3>
+<p>A function is instructions that a computer knows how to perform, given some input and the computer will perform the instructions and return some output.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-4">
+    <section class="slide-content"><h3 id="two-states-of-a-function">Two States of a function</h3>
+<p>A function can be defined and invoked.</p>
+<ul>
+<li><p>Defined can also be described as declared, assigned.</p>
+</li>
+<li><p>Invoked can also be described as run, executed, processed.</p>
+</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="understanding-the-javascript-runtime">Understanding the JavaScript Runtime</h3>
+<blockquote>
+<p>Understanding Dyslexia and how it relates to computers and how they think.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h3 id="what-is-dyslexia-">What is Dyslexia?</h3>
+<blockquote>
+<p>Reading is complex. It requires our brains to connect letters to sounds, put those sounds in the right order, and pull the words together into sentences and paragraphs we can read and comprehend.
+People with dyslexia have trouble matching the letters they see on the page with the sounds those letters and combinations of letters make. And when they have trouble with that step, all the other steps are harder.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h3 id="computers-are-dyslexic">Computers are Dyslexic</h3>
+<blockquote>
+<p>Computers are dyslexic in the sense they have to try harder to process instructions, they have to break them down to the specific letters and combine them based on common rules and repeat this process for every single instruction every-time it is run.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h3 id="so-how-does-the-computer-run-javascript-programs-">So how does the computer run javascript programs?</h3>
+<p>Before we can go deep in to the JavaScript language we need to learn some common terminology and how the JavaScript Execution Engine works.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><p>When you invoke a javascript application, the engine processes your application using a couple of concepts and how to trace through a javascript program.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h3 id="terms">Terms</h3>
+<ul>
+<li>process - single threaded - execution context</li>
+<li>memory - global and local memory</li>
+<li>callstack - what is a stack? you can push contexts on and pop contexts off.</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><p>When launching a javascript process, it runs the program in interpretive environment, this environment is a single thread, which means one callstack and a global context. When a function is invoked, a local execution context is created.</p>
+<p>Each execution context has its own memory and workspace.</p>
+<p>The callstack keeps track of the context the application is in at a given point in time.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="why-is-this-important-">Why is this important?</h3>
+<p>We need to learn how to talk about our code.
+And be able to walk through the runtime process</p>
+<p>We need to learn how the computer runs your code.</p>
+<p><strong>This will give us a common language to share between each other.</strong></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h1 id="pair-programming">Pair Programming</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-14">
+    <section class="slide-content"><h3 id="pair-programming">Pair Programming</h3>
+<blockquote>
+<p>Fastest way to grow your skills</p>
+</blockquote>
+<ul>
+<li>Research</li>
+<li>One Computer - Driver | Navigator</li>
+<li>Takes Practice</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="research">Research</h3>
+<p>Before you begin a pairing session, you first must research the problem as a team, create a plan.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="driver">Driver</h3>
+<p>A Driver is the person on the keyboard, they receive the input from the navigator and enter the commands into the editor.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h3 id="navigator">Navigator</h3>
+<p>A Navigator is the person with the idea explaining what to do, they do not touch the keyboard, they must verbally explain how to accomplish the task at hand.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-18">
+    <section class="slide-content"><h3 id="important">Important</h3>
+<p>It is very important that the idea person verbally explain how to do the task and the driver perform the task, if you are driving and you have an idea, you need to give up the keyboard and explain it to someone else. This will create an effective transfer of knowledge.</p>
+<blockquote>
+<p>For every exercise, we are going to pair, and do the each exercise twice. Once as the Driver and once as the Navigator.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h1 id="callbacks">Callbacks</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><h3 id="callback-functions-pure-functions-recommended-">Callback functions (pure functions recommended)</h3>
+<p>A callback function is a function that is commonly used as an argument to another function, which then can be invoked or executed inside the function and its execution context.</p>
+<p>A pure function is a function that has no side effects, which means it only can modify values passed in and can only return one value back. Pure functions will always return the same output given the same input.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><p>Lets step through the following function:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> input = <span class="hljs-number">8</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add2</span>(<span class="hljs-params">num</span>) </span>{
+  <span class="hljs-keyword">return</span> num + <span class="hljs-number">2</span>
+}
+<span class="hljs-keyword">const</span> result = add2(input)
+</code></pre>
+<p><a href="https://goo.gl/ecz17i">https://goo.gl/ecz17i</a></p>
+<blockquote>
+<p>Step by step we will draw our coding context using paper. We are going to do this several times to get our vocabulary down.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h3 id="example-2">Example 2</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> input = <span class="hljs-number">10</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">divideBy2</span>(<span class="hljs-params">num</span>) </span>{
+  <span class="hljs-keyword">return</span> num / <span class="hljs-number">2</span>
+}
+<span class="hljs-keyword">const</span> result = divideBy2(input)
+</code></pre>
+<p><a href="https://goo.gl/E5zvFt">https://goo.gl/E5zvFt</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h3 id="example-3">Example 3</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> input = <span class="hljs-number">5</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">multiplyBy2</span>(<span class="hljs-params">num</span>) </span>{
+  <span class="hljs-keyword">return</span> num * <span class="hljs-number">2</span>
+}
+<span class="hljs-keyword">const</span> result = multiplyBy2(input)
+</code></pre>
+<p><a href="https://goo.gl/1iHyUu">https://goo.gl/1iHyUu</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-24">
+    <section class="slide-content"><h1 id="containers">Containers</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-25">
+    <section class="slide-content"><h3 id="containers">Containers</h3>
+<p>The use of containers is javascript and functional languages is very important, and very common.</p>
+<p><strong>What is a container</strong></p>
+<p>An array is a container, it holds values.</p>
+<blockquote>
+<p>I like to think of a container like a box, I can put all kinds of values in the box, they are not organized, it is just a way to store collections of stuff.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-26">
+    <section class="slide-content"><h3 id="what-does-programming-and-shipping-have-in-common-">What does programming and shipping have in common?</h3>
+<p>As developers, we are constantly moving data or values around in containers from A to B.</p>
+<p><img src="container-ship.png" height="200" width="200" alt="container ship" /></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-27">
+    <section class="slide-content"><h3 id="copy-array-functions">Copy Array Functions</h3>
+<p>A common practice is to move values from one container to another, and we can manipulate them in several ways, by copying the containers, we can always be sure what data we are working with.</p>
+<blockquote>
+<p>In the future we will use a different name for this practice, but for now, lets keep things simple.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-28">
+    <section class="slide-content"><h3 id="example-1">Example 1</h3>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">copyArrayAndAdd2</span>(<span class="hljs-params">array</span>) </span>{
+  <span class="hljs-keyword">let</span> result = []
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; array.length; i++) {
+    result.push(array[i] + <span class="hljs-number">2</span>)
+  }
+  <span class="hljs-keyword">return</span> result
+}
+<span class="hljs-keyword">const</span> input = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">const</span> array2 = copyArrayAndAdd2(input)
+</code></pre>
+<p><a href="https://goo.gl/a8rFxy">https://goo.gl/a8rFxy</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-29">
+    <section class="slide-content"><h3 id="example-2">Example 2</h3>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">copyArrayAndMultiplyBy2</span>(<span class="hljs-params">array</span>) </span>{
+  <span class="hljs-keyword">let</span> result = []
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; array.length; i++) {
+    result.push(array[i] * <span class="hljs-number">2</span>)
+  }
+  <span class="hljs-keyword">return</span> result
+}
+<span class="hljs-keyword">const</span> input = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">const</span> array2 = copyArrayAndMultiplyBy2(input)
+</code></pre>
+<p><a href="https://goo.gl/FTfY3m">https://goo.gl/FTfY3m</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h3 id="example-3">Example 3</h3>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">copyArrayAndDivideBy2</span>(<span class="hljs-params">array</span>) </span>{
+  <span class="hljs-keyword">let</span> result = []
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; array.length; i++) {
+    result.push(array[i] / <span class="hljs-number">2</span>)
+  }
+  <span class="hljs-keyword">return</span> result
+}
+<span class="hljs-keyword">const</span> input = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">const</span> array2 = copyArrayAndDivideBy2(input)
+</code></pre>
+<p><a href="https://goo.gl/n3uR2q">https://goo.gl/n3uR2q</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h3 id="dry-principal">DRY Principal</h3>
+<p>(Don&#39;t Repeat Yourself)</p>
+<p><a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">https://en.wikipedia.org/wiki/Don%27t_repeat_yourself</a></p>
+<p>How do we make the above functions DRY?</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
+    <section class="slide-content"><h3 id="dry-up-our-copy-array-functions">DRY up our copy array functions</h3>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">copyArrayAndModify</span>(<span class="hljs-params">modifier, array</span>) </span>{
+  <span class="hljs-keyword">let</span> result = []
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; array.length; i++) {
+    result.push(modifier(array[i]))
+  }
+  <span class="hljs-keyword">return</span> result
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add2</span>(<span class="hljs-params">num</span>) </span>{
+  <span class="hljs-keyword">return</span> num + <span class="hljs-number">2</span>
+}
+
+<span class="hljs-keyword">const</span> input = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">const</span> array2 = copyArrayAndModify(add2, input)
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-33">
+    <section class="slide-content"><h3 id="exercises">Exercises</h3>
+<p>Create your copy and modify function and three callback modifier functions:</p>
+<ul>
+<li>add2</li>
+<li>multiplyBy4</li>
+<li>divideBy2</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-34">
+    <section class="slide-content"><h3 id="exercises-cont-">Exercises (cont)</h3>
+<p>Then use the <code>copyArrayAndModify</code> function to use this input array [1,2,3].</p>
+<p>Use the input array and add2 to each item of the array and assign it to the variable array2.</p>
+<p>Take array2 and multiplyBy4 for each item of the array and assign it to the variable array3.</p>
+<p>Take array3 and divideBy2 for each item of the array and assign it to thee variable array4.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-35">
+    <section class="slide-content"><h3 id="exercise-assertions">Exercise Assertions</h3>
+<ul>
+<li>Array1 should equal [1,2,3]</li>
+<li>Array2 should equal [2,4,5]</li>
+<li>Array3 should equal [8,16,20]</li>
+<li>Array4 should equal [4,8,10]</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-36">
+    <section class="slide-content"><h1 id="closures">Closures</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-37">
+    <section class="slide-content"><h3 id="what-is-a-closure-">What is a closure?</h3>
+<p>Closures allow us to return values (function or objects) that can still see the memory of the execution context of a previous closures function invocation.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-38">
+    <section class="slide-content"><h3 id="example">Example</h3>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">let</span> x = <span class="hljs-number">0</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">set</span>(<span class="hljs-params">v</span>) </span>{
+    x = v
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> x
+  }
+
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">set</span>: set,
+    <span class="hljs-attr">get</span>: get
+  }
+}
+
+<span class="hljs-keyword">let</span> bar = foo()
+<span class="hljs-built_in">console</span>.log(bar.get())
+bar.set(<span class="hljs-number">42</span>)
+<span class="hljs-built_in">console</span>.log(bar.get())
+</code></pre>
+<p><a href="https://goo.gl/tdsy7A">https://goo.gl/tdsy7A</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-39">
+    <section class="slide-content"><p>How can we take this concept and apply it to our copy array functions?</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-40">
+    <section class="slide-content"><p>What if we created a copyArrayAndModify function that accepted the modifier function and returned a function that took the array?</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-41">
+    <section class="slide-content"><pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">copyArrayAndModify</span>(<span class="hljs-params">modifier</span>) </span>{
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">copyArray</span>(<span class="hljs-params">array</span>) </span>{
+    <span class="hljs-keyword">let</span> result = []
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; array.length; i++) {
+      result.push(modifier(array[i]))
+    }
+    <span class="hljs-keyword">return</span> result
+  }
+
+  <span class="hljs-keyword">return</span> copyArray
+}
+
+<span class="hljs-keyword">const</span> add2 = copyArrayAndModify(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) </span>{
+  <span class="hljs-keyword">return</span> v + <span class="hljs-number">2</span>
+})
+<span class="hljs-keyword">const</span> multiply4 = copyArrayAndModify(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) </span>{
+  <span class="hljs-keyword">return</span> v * <span class="hljs-number">4</span>
+})
+<span class="hljs-keyword">const</span> divideBy2 = copyArrayAndModify(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) </span>{
+  <span class="hljs-keyword">return</span> v / <span class="hljs-number">2</span>
+})
+
+<span class="hljs-keyword">const</span> array1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">const</span> array2 = add2(array1)
+<span class="hljs-keyword">const</span> array3 = multiply4(array2)
+<span class="hljs-keyword">const</span> array4 = divideBy2(array3)
+</code></pre>
+<p><a href="https://goo.gl/ZS2ZAj">https://goo.gl/ZS2ZAj</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-42">
+    <section class="slide-content"><p>Using closures we can return a function or value to the caller which can retain data assigned in the functions execution context, even though the function completed its execution.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-43">
+    <section class="slide-content"><h1 id="closure-is-one-of-the-most-powerful-concepts-in-computer-science-">Closure is one of the most powerful concepts in Computer Science!</h1>
+<blockquote>
+<p>Knowing this can give you knowledge many mid-level and senior developers don&#39;t understand.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-44">
+    <section class="slide-content"><p>We will practice more closures as we progress through functional programming.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-45">
+    <section class="slide-content"><h1 id="map">Map</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-46">
+    <section class="slide-content"><h3 id="introducing-map">Introducing Map</h3>
+<p>Map is a core building block of functional programming, it leverages containers, like <code>array</code> objects and it apply&#39;s modifier functions to the values inside the container.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-47">
+    <section class="slide-content"><pre><code class="lang-js"><span class="hljs-comment">// copy and modify array function</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">map</span>(<span class="hljs-params">modifier, array</span>) </span>{
+  <span class="hljs-keyword">let</span> result = []
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; array.length; i++) {
+    result.push(array[i])
+  }
+  <span class="hljs-keyword">return</span> result
+}
+
+<span class="hljs-comment">// callback functions</span>
+<span class="hljs-keyword">const</span> add2 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) </span>{
+  <span class="hljs-keyword">return</span> x + <span class="hljs-number">2</span>
+}
+<span class="hljs-keyword">const</span> multiply4 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) </span>{
+  <span class="hljs-keyword">return</span> v * <span class="hljs-number">4</span>
+}
+<span class="hljs-keyword">const</span> divideBy2 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) </span>{
+  <span class="hljs-keyword">return</span> v / <span class="hljs-number">2</span>
+}
+
+<span class="hljs-keyword">const</span> array1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">const</span> array2 = map(add2, array1)
+<span class="hljs-keyword">const</span> array3 = map(multiply4, array2)
+<span class="hljs-keyword">const</span> array4 = map(divideBy2, array3)
+</code></pre>
+<p><a href="https://goo.gl/NvURxd">https://goo.gl/NvURxd</a></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-48">
+    <section class="slide-content"><p>Lets go further using closures we can make creator functions that return us a function.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> add = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">num1</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">num2</span>) </span>{
+    <span class="hljs-keyword">return</span> num1 + num2
+  }
+}
+
+<span class="hljs-keyword">const</span> add2 = add(<span class="hljs-number">2</span>)
+<span class="hljs-keyword">const</span> array1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">const</span> array2 = map(add2, array1)
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-49">
+    <section class="slide-content"><h2 id="try-to-create-an-add-subtract-multiply-and-divideby-creator-functions-and-repeat-the-same-exercise-switch-pairs-">try to create an add, subtract, multiply and divideBy <code>creator functions</code> and repeat the same exercise. (Switch Pairs)</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-50">
+    <section class="slide-content"><p>TODO: Add more map exercises</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-51">
+    <section class="slide-content"><h3 id="review-creator-exercises">Review Creator Exercises</h3>
+<p>Lets review our creator functions</p>
+<ul>
+<li>add/subtract</li>
+<li>multiply</li>
+<li>divideBy</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-52">
+    <section class="slide-content"><h1 id="partial-application-and-curry">Partial Application and Curry</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-53">
+    <section class="slide-content"><h2 id="partial-application-and-curry">Partial Application and Curry</h2>
+<p>Sometimes you may want to use a function in different ways or on different execution contexts.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-54">
+    <section class="slide-content"><p>For Example, you may want an add function, and you may have both a and b.</p>
+<pre><code>function add(a,b) {
+  return a + b
+}
+</code></pre></section>
+  </div>
+  <div class="slide hidden" id="slide-55">
+    <section class="slide-content"><p>But sometimes, you may know in advance you want an add function, but you do not know all the values up front.</p>
+<pre><code>function add(a) {
+  return function(b) {
+    return a + b
+  }
+}
+</code></pre></section>
+  </div>
+  <div class="slide hidden" id="slide-56">
+    <section class="slide-content"><h2 id="wouldn-t-be-nice-if-we-had-a-function-that-could-return-either-the-result-if-both-a-and-b-were-provided-in-and-a-function-if-only-a-was-provided-">Wouldn&#39;t be nice if we had a function that could return either the result if both a and b were provided in, and a function if only a was provided.</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-57">
+    <section class="slide-content"><h3 id="this-is-called-partial-application-">This is called partial application.</h3>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">a,b=null</span>) </span>{
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">do</span>(<span class="hljs-params">v</span>) </span>{
+    <span class="hljs-keyword">return</span> a + v
+  }
+  <span class="hljs-keyword">return</span> b ? <span class="hljs-keyword">do</span>(b) : <span class="hljs-keyword">do</span>
+}
+</code></pre>
+<p>This may be a little hard to read at first, with the ternary function, lets write out long hand.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-58">
+    <section class="slide-content"><h3 id="partial-application-take-2">Partial Application take 2</h3>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">a,b</span>) </span>{
+  <span class="hljs-comment">// default b to null</span>
+  <span class="hljs-keyword">if</span> (!b) {
+    b = <span class="hljs-literal">null</span>
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">do</span>(<span class="hljs-params">v</span>) </span>{
+    <span class="hljs-keyword">return</span> a + v
+  }
+
+  <span class="hljs-keyword">if</span> (b !== <span class="hljs-literal">null</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">do</span>(v)
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">do</span>
+  }
+}
+</code></pre>
+<h3 id="exercises">Exercises</h3>
+<p>Create Add, Subtract, Multiply and Divide Creator Functions that use Partial Application and apply them to the following application.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> array1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">const</span> array2 = map(add(<span class="hljs-number">2</span>), array1)
+<span class="hljs-keyword">const</span> array3 = map(multiply(<span class="hljs-number">4</span>), array2)
+<span class="hljs-keyword">const</span> array4 = map(divideBy(<span class="hljs-number">2</span>), array2)
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-59">
+    <section class="slide-content"><h1 id="compose">Compose</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-60">
+    <section class="slide-content"><h3 id="compose">Compose</h3>
+<blockquote>
+<p>Can we apply all of the mapper functions while only looping once?</p>
+</blockquote>
+<p>Certainly, we can do this imperatively:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">let</span> result = []
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; array.length; i++) {
+  <span class="hljs-keyword">let</span> v1 = array[i] + <span class="hljs-number">2</span>
+  <span class="hljs-keyword">let</span> v2 = v1 * <span class="hljs-number">4</span>
+  <span class="hljs-keyword">let</span> v3 = v2 / <span class="hljs-number">2</span>
+  result.push(v3)
+}
+<span class="hljs-keyword">return</span> result
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-61">
+    <section class="slide-content"><blockquote>
+<p>But how can we do this in a re-usable way, where we can take advantage of our creator functions.</p>
+</blockquote>
+<p>Since we are using pure functions that return a result, we can pass it to each function and create a combination function.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> add2AndMultiply4AndDivideBy2 = <span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> divideBy2(<span class="hljs-number">2</span>, multiply(<span class="hljs-number">4</span>, add(<span class="hljs-number">2</span>, v)))
+
+<span class="hljs-keyword">const</span> array4 = map(add2AndMultiply4AndDivideBy2, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-62">
+    <section class="slide-content"><h3 id="compose">Compose</h3>
+<blockquote>
+<p>This is such a common pattern that we have discrete mapper functions that we want to combine together.</p>
+</blockquote>
+<pre><code>v =&gt; e(f(g(v)) === compose(e,f,g)
+</code></pre></section>
+  </div>
+  <div class="slide hidden" id="slide-63">
+    <section class="slide-content"><h3 id="map-and-compose">Map and Compose</h3>
+<p>Here is what it would look like with our map function</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> result = map(compose(divideBy(<span class="hljs-number">2</span>), multiply(<span class="hljs-number">4</span>), add(<span class="hljs-number">2</span>)), [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-64">
+    <section class="slide-content"><p>So what does compose look like?</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">compose</span>(<span class="hljs-params">...fns</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) </span>{
+    <span class="hljs-keyword">let</span> result = v
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = fns.length - <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">0</span>; i--) {
+      result = fns[i](result)
+    }
+    <span class="hljs-keyword">return</span> result
+  }
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-65">
+    <section class="slide-content"><h3 id="exercise">Exercise</h3>
+<p>Use the compose function and your Add, Subtract, Multiply, and DivideBy to find the result of the following problem:</p>
+<blockquote>
+<p>Take the array [1,2,3] and add 2 to each item, then multiply 4 then divide 2.</p>
+</blockquote>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-66">
+    <section class="slide-content"><h1 id="filter">Filter</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-67">
+    <section class="slide-content"><p>What if we wanted to take an array and return an array that only included some of the values of the array? This is called filtering, it is a common term in data processing that could be confusing at first. But basically, we have a group of data elements, lets say numbers, and we only want to return a subset, lets say numbers divisble by 5.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-68">
+    <section class="slide-content"><p>The filter function is very similar to the map function, we take an array, and a predicate function that can only return a true or false.</p>
+<blockquote>
+<p>A predicate function is a function that returns a true or false</p>
+</blockquote>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filter</span>(<span class="hljs-params">predicate, array</span>) </span>{
+  <span class="hljs-keyword">let</span> result = []
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; array.length; i++) {
+    <span class="hljs-keyword">if</span> (predicate(array[i])) {
+      result.push(array[i])
+    }
+  }
+  <span class="hljs-keyword">return</span> result
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-69">
+    <section class="slide-content"><p>TODO: Add Filter Exercises</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-70">
+    <section class="slide-content"><h1 id="reduce">Reduce</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-71">
+    <section class="slide-content"><h3 id="review">Review</h3>
+<ul>
+<li>Map function Transforms values in a container</li>
+<li>Filter function limits values in a container based on a predicate function</li>
+<li>Reduce returns a value based on a reducer function</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-72">
+    <section class="slide-content"><h3 id="common-reducers">Common Reducers</h3>
+<ul>
+<li>count reduce function</li>
+<li>sum reduce function</li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> inc = add(<span class="hljs-number">1</span>)
+<span class="hljs-keyword">const</span> count = reduce(inc, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> sum = reduce(add, <span class="hljs-number">0</span>, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-73">
+    <section class="slide-content"><h3 id="lets-step-through-a-reduce-implementation">Lets step through a reduce implementation</h3>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reduce</span>(<span class="hljs-params">reducer, initialValue, array</span>) </span>{
+  <span class="hljs-keyword">let</span> result = initialValue
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; array.length; i++) {
+    result = reducer(result, array[i])
+  }
+  <span class="hljs-keyword">return</span> result
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-74">
+    <section class="slide-content"><h3 id="map-implemented-as-a-reducer">Map implemented as a reducer</h3>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">map</span>(<span class="hljs-params">mapper, array</span>) </span>{
+  <span class="hljs-keyword">return</span> reducer(
+    <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">acc, value</span>) </span>{
+      acc.push(mapper(value))
+      <span class="hljs-keyword">return</span> acc
+    },
+    [],
+    array
+  )
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-75">
+    <section class="slide-content"><h3 id="filter-implemented-as-a-reducer">Filter implemented as a reducer</h3>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filter</span>(<span class="hljs-params">predicate, array</span>) </span>{
+  <span class="hljs-keyword">return</span> reducer(
+    <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">acc, value</span>) </span>{
+      <span class="hljs-keyword">if</span> (predicate(value)) {
+        acc.push(value)
+      }
+      <span class="hljs-keyword">return</span> acc
+    },
+    [],
+    array
+  )
+}
+</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-76">
+    <section class="slide-content"><p>TODO: Reduce Examples</p>
+</section>
+  </div>
+
+  <div class="controls">
+    <div class="arrow prev"></div>
+    <div class="arrow next"></div>
+  </div>
+
+
+  <script type="text/javascript">
+    /**
+ * Returns the current page number of the presentation.
+ */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+
+/**
+ * Navigates forward n pages
+ * If n is negative, we will navigate in reverse
+ */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+
+/**
+ * Updates the current URL to include a hashtag of the current page number.
+ */
+function updateURL() {
+  try {
+    window.history.replaceState({} , null, '#' + currentPosition());
+  } catch (e) {
+    window.location.hash = currentPosition();
+  }
+}
+
+
+/**
+ * Sets the progress indicator.
+ */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+/**
+ * Determines whether or not we are currently in full screen mode
+ */
+function isFullScreen() {
+  return document.fullscreenElement ||
+         document.mozFullScreenElement ||
+         document.webkitFullscreenElement ||
+         document.msFullscreenElement;
+}
+
+/**
+ * Toggle fullScreen mode on document element.
+ * Works on chrome (>= 15), firefox (>= 9), ie (>= 11), opera(>= 12.1), safari (>= 5).
+ */
+function toggleFullScreen() {
+  /* Convenient renames */
+  var docElem = document.documentElement;
+  var doc = document;
+
+  docElem.requestFullscreen =
+      docElem.requestFullscreen ||
+      docElem.msRequestFullscreen ||
+      docElem.mozRequestFullScreen ||
+      docElem.webkitRequestFullscreen.bind(docElem, Element.ALLOW_KEYBOARD_INPUT);
+
+  doc.exitFullscreen =
+      doc.exitFullscreen ||
+      doc.msExitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen;
+
+  isFullScreen() ? doc.exitFullscreen() : docElem.requestFullscreen();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, PgDn - FORWARD
+    // enter - FULLSCREEN
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    } else if (kc === 13) {
+      toggleFullScreen();
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+
+  </script>
+</body>
+</html>
