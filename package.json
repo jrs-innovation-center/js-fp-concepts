@@ -5,10 +5,11 @@
   "repository": {},
   "license": "MIT",
   "dependencies": {
-    "cleaver": "^0.8.7"
+    "cleaver": "^0.8.7",
+    "serve": "^7.0.1"
   },
   "scripts": {
-    "start": "cleaver slides.md",
+    "start": "serve .",
     "watch": "cleaver watch slides.md"
   }
 }

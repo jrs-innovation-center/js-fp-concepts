@@ -330,9 +330,9 @@ Take array3 and divideBy2 for each item of the array and assign it to thee varia
 ### Exercise Assertions
 
 * Array1 should equal [1,2,3]
-* Array2 should equal [2,4,5]
-* Array3 should equal [8,16,20]
-* Array4 should equal [4,8,10]
+* Array2 should equal [3,4,5]
+* Array3 should equal [12,16,20]
+* Array4 should equal [6,8,10]
 
 --
 
@@ -446,14 +446,14 @@ Map is a core building block of functional programming, it leverages containers,
 function map(modifier, array) {
   let result = []
   for (let i = 0; i < array.length; i++) {
-    result.push(array[i])
+    result.push(modifier(array[i]))
   }
   return result
 }
 
 // callback functions
 const add2 = function(v) {
-  return x + 2
+  return v + 2
 }
 const multiply4 = function(v) {
   return v * 4
@@ -492,10 +492,6 @@ const array2 = map(add2, array1)
 
 --
 
-TODO: Add more map exercises
-
---
-
 ### Review Creator Exercises
 
 Lets review our creator functions
@@ -505,6 +501,45 @@ Lets review our creator functions
 * divideBy
 
 --
+
+### Exercise
+
+input: [1,2,3]
+output: ['one', 'two', 'three']
+
+Create a modifier function that takes a number between 1 and 3 and returns the string version of the number.
+
+Then run the modifier through a map function with the array [1,2,3] as input, the successful result should be ['one', 'two', 'three']
+
+--
+
+### Exercise
+
+input: ['3C', '4H', '10S']
+output: ['Three of Clubs', 'Four of Hearts', 'Ten of Spades']
+
+Create modifier function that takes a codified card value and returns the resulting saying: 6H = Six of Hearts
+
+HINT: create two conditionals one that converts numbers to their respective words, and ['C','H', 'S', 'D'] to (Clubs, Hearts, Spades, and Diamonds)
+
+--
+
+### Exercise FizzBuzz
+
+https://en.wikipedia.org/wiki/Fizz_buzz
+
+> Print numbers 1 to 100, any number divisible by three is replaced by the word fizz and any divisible by five by the word buzz. Numbers divisible by both become fizz buzz.
+
+```js
+const onehundred = Array(100)
+  .fill()
+  .map((value, index) => index + 1)
+// TODO: FizzBuzz
+```
+
+HINT: use map to transform values to fizz, buzz, and fizzbuzz
+
+---
 
 # Partial Application and Curry
 
@@ -578,9 +613,48 @@ function add(a,b) {
 }
 ```
 
+--
+
+### Partial Application
+
+```js
+/**
+ * partial
+ *
+ * partially apply some arguments
+ * then call a function with the rest
+ *
+ * @param n {Number}
+ * @param fn {function}
+ */
+// n = number of args
+// fn = function to partially apply
+function partial(n, fn) {
+  return function(...args) {
+    if (args.length === n) {
+      return fn.apply(null, args)
+    }
+    return function(...rest) {
+      return fn.apply(null, args.concat(rest))
+    }
+  }
+}
+
+const add = partial(2, function(a, b) {
+  return a + b
+})
+
+console.log(add(1, 2))
+console.log(add(1)(2))
+```
+
+https://goo.gl/PS2MoR
+
+--
+
 ### Exercises
 
-Create Add, Subtract, Multiply and Divide Creator Functions that use Partial Application and apply them to the following application.
+Create Add, Subtract, Multiply and Divide Functions and use Partial Application to convert them into creator functions
 
 ```js
 const array1 = [1, 2, 3]
@@ -662,6 +736,35 @@ function compose(...fns) {
 
 --
 
+## Walk Thru Compose
+
+```js
+const partial = (n, fn) => (...args) =>
+  n === args.length
+    ? fn.apply(null, args)
+    : (...rest) => fn.apply(null, args.concat(rest))
+
+const map = (fn, array) => array.map(fn)
+const add = partial(2, (a, b) => a + b)
+const multiply = partial(2, (a, b) => a * b)
+
+function compose(...fns) {
+  return function(v) {
+    let result = v
+    for (let i = fns.length - 1; i > -1; i--) {
+      result = fns[i].call(null, result)
+    }
+    return result
+  }
+}
+
+console.log('results', map(compose(add(2), multiply(10)), [1, 2, 3]))
+```
+
+https://goo.gl/kLTM2Q
+
+--
+
 ### Exercise
 
 Use the compose function and your Add, Subtract, Multiply, and DivideBy to find the result of the following problem:
@@ -674,13 +777,29 @@ Use the compose function and your Add, Subtract, Multiply, and DivideBy to find 
 
 --
 
-What if we wanted to take an array and return an array that only included some of the values of the array? This is called filtering, it is a common term in data processing that could be confusing at first. But basically, we have a group of data elements, lets say numbers, and we only want to return a subset, lets say numbers divisble by 5.
+What if we wanted to take an array and return an array that only included some of the values of the array? This is called filtering, it is a common term in data processing that could be confusing at first. But basically, we have a group of data elements, lets say numbers, and we only want to return a subset, lets say numbers divisible by 5.
 
 --
 
 The filter function is very similar to the map function, we take an array, and a predicate function that can only return a true or false.
 
 > A predicate function is a function that returns a true or false
+
+```js
+function keep(predicate, array) {
+  let result = []
+  for (let i = 0; i < array.length; i++) {
+    if (predicate(array[i])) {
+      result.push(array[i])
+    }
+  }
+  return result
+}
+```
+
+--
+
+### Aka Filter
 
 ```js
 function filter(predicate, array) {
@@ -696,7 +815,74 @@ function filter(predicate, array) {
 
 --
 
-TODO: Add Filter Exercises
+### Walk Through
+
+```js
+const even = a => a % 2 === 0
+
+function filter(predicate, array) {
+  let result = []
+  for (let i = 0; i < array.length; i++) {
+    if (predicate(array[i])) {
+      result.push(array[i])
+    }
+  }
+  return result
+}
+
+console.log(filter(even, [1, 2, 3, 4]))
+```
+
+--
+
+### Reject
+
+```js
+function reject(predicate, array) {
+  let result = []
+  for (let i = 0; i < array.length; i++) {
+    if (!predicate(array[i])) {
+      result.push(array[i])
+    }
+  }
+  return result
+}
+```
+
+--
+
+### Walk Through
+
+```js
+const even = v => v % 2 === 0
+function reject(predicate, array) {
+  let result = []
+  for (let i = 0; i < array.length; i++) {
+    if (!predicate(array[i])) {
+      result.push(array[i])
+    }
+  }
+  return result
+}
+
+console.log(reject(even, [1, 2, 3, 4]))
+```
+
+--
+
+### Exercise
+
+Create a predicate function that only keeps words that start with the letter 'a'
+
+Create a filter that manages this list ['brains', 'apple', 'zombie', 'apocalypse', 'dead', 'walking', 'anywhere']
+
+--
+
+### Exercise
+
+Create a predicate function that only filters cards that are the suit hearts.
+
+Create a filter function that returns an array that is all heart from this list of cards: ['3H', '4C', '2S', '10H', 'JH']
 
 --
 
