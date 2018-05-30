@@ -665,6 +665,12 @@ const array4 = map(divideBy(2), array2)
 
 --
 
+## Exercise
+
+Make map a partial function, so you can provide the modifier callback in one step and the data in another step.
+
+--
+
 # Compose
 
 --
@@ -770,6 +776,32 @@ https://goo.gl/kLTM2Q
 Use the compose function and your Add, Subtract, Multiply, and DivideBy to find the result of the following problem:
 
 > Take the array [1,2,3] and add 2 to each item, then multiply 4 then divide 2.
+
+--
+
+### Exercise
+
+Create an uppercase callback, and a numberToWords callback.
+
+Use compose to create a numberToWords and uppercase combo, then
+apply it using map to the following numbers [1,2,3,4,5]
+
+Expected: ['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE']
+
+--
+
+### Exercise
+
+Use compose to create a callback called reverseString. It should be made up three callback functions that you will need to create:
+
+* splitString - converts a string to an array of letters
+* reverse - reverses an array
+* joinArray - converts an array to a string
+
+Then use your reverseString to map over the following array of strings.
+
+input: ['foo', 'bar', 'baz', 'bam', 'beep', 'boop']
+expected output: ['oof', 'rab', 'zab', 'mab', 'peeb', 'poob']
 
 --
 
