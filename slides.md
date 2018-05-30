@@ -505,6 +505,7 @@ Lets review our creator functions
 ### Exercise
 
 input: [1,2,3]
+
 output: ['one', 'two', 'three']
 
 Create a modifier function that takes a number between 1 and 3 and returns the string version of the number.
@@ -516,6 +517,7 @@ Then run the modifier through a map function with the array [1,2,3] as input, th
 ### Exercise
 
 input: ['3C', '4H', '10S']
+
 output: ['Three of Clubs', 'Four of Hearts', 'Ten of Spades']
 
 Create modifier function that takes a codified card value and returns the resulting saying: 6H = Six of Hearts
@@ -781,17 +783,20 @@ Use the compose function and your Add, Subtract, Multiply, and DivideBy to find 
 
 ### Exercise
 
+```
 Create an uppercase callback, and a numberToWords callback.
 
 Use compose to create a numberToWords and uppercase combo, then
 apply it using map to the following numbers [1,2,3,4,5]
 
 Expected: ['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE']
+```
 
 --
 
 ### Exercise
 
+```
 Use compose to create a callback called reverseString. It should be made up three callback functions that you will need to create:
 
 * splitString - converts a string to an array of letters
@@ -802,6 +807,7 @@ Then use your reverseString to map over the following array of strings.
 
 input: ['foo', 'bar', 'baz', 'bam', 'beep', 'boop']
 expected output: ['oof', 'rab', 'zab', 'mab', 'peeb', 'poob']
+```
 
 --
 

@@ -10,7 +10,9 @@
   },
   "scripts": {
     "start": "serve .",
-    "watch": "cleaver watch slides.md"
+    "build": "cleaver slides.md",
+    "watch": "cleaver watch slides.md",
+    "deploy": "now && now alias && now scale js-fp-concepts.now.sh sfo1 1 1"
   },
   "now": {
     "alias": "js-fp-concepts"
